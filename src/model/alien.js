@@ -1,4 +1,8 @@
 class Alien extends Fighter {
+  constructor(config) {
+    super({ ...config, bulletClass: AlienBullet });
+  }
+
   drawBody() {
     fill(255);
     noStroke();
@@ -8,5 +12,9 @@ class Alien extends Fighter {
 
   updateAngle() {
     this.angle += this.rotationSpeed;
+  }
+
+  shouldFireBullet() {
+    return frameCount % 80 === 0;
   }
 }

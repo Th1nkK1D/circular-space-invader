@@ -1,4 +1,8 @@
 class Player extends Fighter {
+  constructor(config) {
+    super({ ...config, bulletClass: PlayerBullet });
+  }
+
   draw() {
     this.drawOrbitalRing();
     super.draw();
@@ -36,5 +40,9 @@ class Player extends Fighter {
     if (keyIsDown(39 /* right arrow */)) {
       this.angle += this.rotationSpeed;
     }
+  }
+
+  shouldFireBullet() {
+    return frameCount % 100 === 0;
   }
 }
