@@ -1,6 +1,13 @@
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
+  min-width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  place-items: center;
+  background-color: rgb(21, 21, 21);
 }
 
 canvas {
