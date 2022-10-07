@@ -33,11 +33,11 @@ class Player extends Fighter {
   }
 
   updateAngle() {
-    if (keyIsDown(37 /* left arrow */)) {
+    if (keyIsDown(KEY_LEFT_ARROW)) {
       this.angle -= this.rotationSpeed;
     }
 
-    if (keyIsDown(39 /* right arrow */)) {
+    if (keyIsDown(KEY_RIGHT_ARROW)) {
       this.angle += this.rotationSpeed;
     }
   }
