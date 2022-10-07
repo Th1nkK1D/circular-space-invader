@@ -8,7 +8,7 @@ class Player extends Fighter {
     fill(255);
     noStroke();
 
-    const yOffset = -this.orbitalRadius / 2;
+    const yOffset = -this.orbitalRadius;
 
     triangle(
       0,
@@ -25,7 +25,7 @@ class Player extends Fighter {
     stroke(255, 50);
     strokeWeight(2);
 
-    circle(width / 2, height / 2, this.orbitalRadius);
+    circle(width / 2, height / 2, this.orbitalRadius * 2);
   }
 
   updateAngle() {

@@ -3,7 +3,7 @@ class Alien extends Fighter {
     fill(255);
     noStroke();
 
-    circle(0, -this.orbitalRadius / 2, this.radius * 2);
+    circle(0, -this.orbitalRadius, this.radius * 2);
   }
 
   updateAngle() {

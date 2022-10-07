@@ -6,13 +6,13 @@ function setup() {
 
   player = new Player({
     radius: 15,
-    orbitalRadius: 200,
+    orbitalRadius: 100,
     rotationSpeed: PI / 50,
   });
 
   alien = new Alien({
     radius: 15,
-    orbitalRadius: 500,
+    orbitalRadius: 250,
     rotationSpeed: PI / 200,
   });
 }
