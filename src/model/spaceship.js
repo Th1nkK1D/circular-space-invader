@@ -29,6 +29,8 @@ class Spaceship {
       -this.diameter,
       this.diameter + yOffset
     );
+
+    resetMatrix();
   }
 
   drawOrbitalRing() {
