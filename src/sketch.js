@@ -46,6 +46,14 @@ function setup() {
 function draw() {
   background(0);
 
+  [player, ...ALIEN_LAYERS].forEach((obj, i) => {
+    noFill();
+    stroke(255, 30);
+    strokeWeight(2);
+
+    circle(width / 2, height / 2, obj.orbitalRadius * 2);
+  });
+
   player.draw();
 
   aliens.forEach((alien) => {

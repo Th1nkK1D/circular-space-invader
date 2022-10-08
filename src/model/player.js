@@ -5,11 +5,6 @@ class Player extends Fighter {
     this.fireCooldownDuration = fireCooldownDuration;
   }
 
-  draw() {
-    this.drawOrbitalRing();
-    super.draw();
-  }
-
   drawBody() {
     fill(255);
     noStroke();
@@ -24,14 +19,6 @@ class Player extends Fighter {
       -this.radius,
       this.radius + yOffset
     );
-  }
-
-  drawOrbitalRing() {
-    noFill();
-    stroke(255, 50);
-    strokeWeight(2);
-
-    circle(width / 2, height / 2, this.orbitalRadius * 2);
   }
 
   updateAngle() {
