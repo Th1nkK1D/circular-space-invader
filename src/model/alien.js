@@ -10,8 +10,8 @@ class Alien extends Fighter {
   }
 
   drawBody() {
-    const width = this.radius * 2;
-    const height = (this.radius * 4) / 3;
+    const width = this.radius * 1.8;
+    const height = this.radius * 1.5;
     const dotSize = this.radius / 3;
 
     const yOffset = -this.orbitalRadius;
