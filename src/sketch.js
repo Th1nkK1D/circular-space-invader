@@ -32,7 +32,7 @@ function setup() {
   ALIEN_LAYERS.forEach(({ amount, orbitalRadius, rotationSpeed }) => {
     const angleOffset = random(0, 2 * PI);
 
-    new Array(amount).fill().forEach((_, i) => {
+    for (let i = 0; i < amount; i++) {
       alienSet.add(
         new Alien({
           radius: 15,
@@ -45,20 +45,14 @@ function setup() {
           initialFireCooldown: random(1000, 5000),
         })
       );
-    });
+    }
   });
 }
 
 function draw() {
-  background(0);
+  background(COLOR_BLACK);
 
-  [player, ...ALIEN_LAYERS].forEach(({ orbitalRadius }) => {
-    noFill();
-    stroke(COLOR_WHITE, 30);
-    strokeWeight(2);
-
-    circle(width / 2, height / 2, orbitalRadius * 2);
-  });
+  drawOrbitRings();
 
   player.draw();
 
@@ -84,6 +78,20 @@ function draw() {
     });
   });
 
+  drawBulletHUD();
+}
+
+function drawOrbitRings() {
+  [player, ...ALIEN_LAYERS].forEach(({ orbitalRadius }) => {
+    noFill();
+    stroke(COLOR_WHITE, 30);
+    strokeWeight(2);
+
+    circle(width / 2, height / 2, orbitalRadius * 2);
+  });
+}
+
+function drawBulletHUD() {
   for (let b = 0; b < player.maxBullet; b++) {
     if (b < player.currentBullet) {
       fill(player.color);
