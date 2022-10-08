@@ -1,8 +1,24 @@
 class Player extends Fighter {
-  constructor({ fireCooldownDuration, ...config }) {
+  constructor({
+    fireCooldownDuration,
+    maxBullet,
+    bulletReloadDuration,
+    ...config
+  }) {
     super({ ...config, bulletClass: PlayerBullet });
 
     this.fireCooldownDuration = fireCooldownDuration;
+    this.currentBullet = maxBullet;
+    this.maxBullet = maxBullet;
+    this.bulletReloadDuration = bulletReloadDuration;
+  }
+
+  draw() {
+    if (this.currentBullet < this.maxBullet) {
+      this.currentBullet += deltaTime / this.bulletReloadDuration;
+    }
+
+    super.draw();
   }
 
   drawBody() {
@@ -32,7 +48,14 @@ class Player extends Fighter {
   }
 
   shouldFireBullet() {
-    return keyIsDown(KEY_SPACE) && this.fireCooldown === 0;
+    const isFire =
+      keyIsDown(KEY_SPACE) && this.fireCooldown === 0 && this.currentBullet > 0;
+
+    if (isFire) {
+      this.currentBullet--;
+    }
+
+    return isFire;
   }
 
   setFireCooldown() {

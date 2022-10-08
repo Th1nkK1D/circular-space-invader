@@ -23,6 +23,8 @@ function setup() {
     bulletSpeed: 0.3,
     bulletHitBoxRadius: 5,
     fireCooldownDuration: 150,
+    maxBullet: 10,
+    bulletReloadDuration: 600,
   });
 
   alienSet = new Set();
@@ -50,12 +52,12 @@ function setup() {
 function draw() {
   background(0);
 
-  [player, ...ALIEN_LAYERS].forEach((obj, i) => {
+  [player, ...ALIEN_LAYERS].forEach(({ orbitalRadius }) => {
     noFill();
     stroke(255, 30);
     strokeWeight(2);
 
-    circle(width / 2, height / 2, obj.orbitalRadius * 2);
+    circle(width / 2, height / 2, orbitalRadius * 2);
   });
 
   player.draw();
@@ -81,4 +83,18 @@ function draw() {
       }
     });
   });
+
+  for (let b = 0; b < player.maxBullet; b++) {
+    strokeWeight(1);
+
+    if (b < player.currentBullet) {
+      stroke(200);
+      fill(200);
+    } else {
+      stroke(150);
+      noFill();
+    }
+
+    rect(width - player.maxBullet * 15 + 15 * b, 10, 4, 20);
+  }
 }
