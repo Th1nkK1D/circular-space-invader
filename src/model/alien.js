@@ -1,6 +1,10 @@
 class Alien extends Fighter {
   constructor({ fireCooldownDurationRange, ...config }) {
-    super({ ...config, bulletClass: AlienBullet });
+    super({
+      ...config,
+      bulletClass: AlienBullet,
+      bulletColors: [COLOR_NEON_RED],
+    });
 
     this.fireCooldownDurationRange = fireCooldownDurationRange;
   }
@@ -13,7 +17,7 @@ class Alien extends Fighter {
     const yOffset = -this.orbitalRadius;
 
     noStroke();
-    fill(COLOR_WHITE);
+    fill(COLOR_NEON_PURPLE);
 
     // body
     rect(-width / 2, -height / 2 + yOffset, width, height);

@@ -1,10 +1,11 @@
 class Bullet {
-  constructor({ distance, angle, speed, dispose, hitBoxRadius }) {
+  constructor({ distance, angle, speed, dispose, hitBoxRadius, color }) {
     this.distance = distance;
     this.angle = angle;
     this.speed = speed;
     this.dispose = dispose;
     this.hitboxRedius = hitBoxRadius;
+    this.color = color;
     this.stageSafeDistance = sqrt(width * width + height * height) / 2;
   }
 

@@ -86,7 +86,7 @@ function draw() {
 
   for (let b = 0; b < player.maxBullet; b++) {
     if (b < player.currentBullet) {
-      fill(COLOR_WHITE, 150);
+      fill(player.color);
     } else {
       strokeWeight(1);
       stroke(COLOR_WHITE, 150);

@@ -5,7 +5,11 @@ class Player extends Fighter {
     bulletReloadDuration,
     ...config
   }) {
-    super({ ...config, bulletClass: PlayerBullet });
+    super({
+      ...config,
+      bulletClass: PlayerBullet,
+      bulletColors: [COLOR_NEON_CYAN, COLOR_NEON_PINK, COLOR_NEON_YELLOW],
+    });
 
     this.fireCooldownDuration = fireCooldownDuration;
     this.currentBullet = maxBullet;
@@ -22,7 +26,7 @@ class Player extends Fighter {
   }
 
   drawBody() {
-    fill(COLOR_WHITE);
+    fill(this.color);
     noStroke();
 
     const yOffset = -this.orbitalRadius;
