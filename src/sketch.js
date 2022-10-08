@@ -1,24 +1,45 @@
-let player, alien;
+let player, aliens;
+
+const ALIEN_LAYERS = [
+  {
+    amount: 5,
+    rotationSpeed: -Math.PI / 10000,
+    orbitalRadius: 350,
+  },
+  {
+    amount: 7,
+    rotationSpeed: Math.PI / 14000,
+    orbitalRadius: 450,
+  },
+];
 
 function setup() {
-  createCanvas(800, 800);
+  createCanvas(1000, 1000);
 
   player = new Player({
     radius: 15,
-    orbitalRadius: 100,
+    orbitalRadius: 150,
     rotationSpeed: PI / 800,
     bulletSpeed: 0.3,
     bulletHitBoxRadius: 5,
     fireCooldownDuration: 150,
   });
 
-  alien = new Alien({
-    radius: 15,
-    orbitalRadius: 250,
-    rotationSpeed: PI / 3000,
-    bulletSpeed: -0.2,
-    bulletHitBoxRadius: 5,
-    fireCooldownDurationRange: [500, 1500],
+  aliens = ALIEN_LAYERS.flatMap(({ amount, orbitalRadius, rotationSpeed }) => {
+    const angleOffset = random(0, 2 * PI);
+    return new Array(amount).fill().map(
+      (_, i) =>
+        new Alien({
+          radius: 15,
+          angle: angleOffset + ((2 * PI) / amount) * i,
+          rotationSpeed,
+          orbitalRadius,
+          bulletSpeed: -0.15,
+          bulletHitBoxRadius: 5,
+          fireCooldownDurationRange: [5000, 12000],
+          initialFireCooldown: random(1000, 5000),
+        })
+    );
   });
 }
 
@@ -26,21 +47,26 @@ function draw() {
   background(0);
 
   player.draw();
-  alien.draw();
+
+  aliens.forEach((alien) => {
+    alien.draw();
+
+    alien.bulletSet.forEach((bullet) => {
+      bullet.draw();
+
+      if (bullet.checkCollisionWithFighter(player)) {
+        console.log('HIT PLAYER');
+      }
+    });
+  });
 
   player.bulletSet.forEach((bullet) => {
     bullet.draw();
 
-    if (bullet.checkCollisionWithFighter(alien)) {
-      console.log('HIT ALIEN');
-    }
-  });
-
-  alien.bulletSet.forEach((bullet) => {
-    bullet.draw();
-
-    if (bullet.checkCollisionWithFighter(player)) {
-      console.log('HIT PLAYER');
-    }
+    aliens.forEach((alien) => {
+      if (bullet.checkCollisionWithFighter(alien)) {
+        console.log('HIT ALIEN');
+      }
+    });
   });
 }

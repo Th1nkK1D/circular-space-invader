@@ -8,6 +8,7 @@ class Fighter {
     bulletClass,
     bulletSpeed,
     bulletHitBoxRadius,
+    initialFireCooldown = 0,
   }) {
     this.radius = radius;
     this.orbitalRadius = orbitalRadius;
@@ -17,7 +18,7 @@ class Fighter {
     this.bulletClass = bulletClass;
     this.bulletSpeed = bulletSpeed;
     this.bulletHitBoxRadius = bulletHitBoxRadius;
-    this.fireCooldown = 0;
+    this.fireCooldown = initialFireCooldown;
   }
 
   draw() {
