@@ -30,7 +30,10 @@ class Player extends Fighter {
     noStroke();
 
     const yOffset = -this.orbitalRadius;
+    const wingWidth = this.radius / 3;
+    const wingHeight = this.radius;
 
+    // Body
     triangle(
       0,
       -this.radius + yOffset,
@@ -38,6 +41,20 @@ class Player extends Fighter {
       this.radius + yOffset,
       -this.radius,
       this.radius + yOffset
+    );
+
+    // Wings
+    rect(
+      this.radius - wingWidth / 2,
+      this.radius - wingHeight + yOffset,
+      wingWidth,
+      wingHeight
+    );
+    rect(
+      -this.radius - wingWidth / 2,
+      this.radius - wingHeight + yOffset,
+      wingWidth,
+      wingHeight
     );
   }
 
