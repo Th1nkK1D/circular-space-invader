@@ -1,16 +1,12 @@
 class Player extends Fighter {
-  constructor(config) {
+  constructor({ fireCooldownDuration, ...config }) {
     super({ ...config, bulletClass: PlayerBullet });
 
-    this.fireCooldown = 0;
-    this.initialCooldownTime = 150;
+    this.fireCooldownDuration = fireCooldownDuration;
   }
 
   draw() {
     this.drawOrbitalRing();
-
-    this.fireCooldown = Math.max(this.fireCooldown - deltaTime, 0);
-
     super.draw();
   }
 
@@ -40,21 +36,19 @@ class Player extends Fighter {
 
   updateAngle() {
     if (keyIsDown(KEY_LEFT_ARROW)) {
-      this.angle -= this.rotationSpeed;
+      this.angle -= this.rotationSpeed * deltaTime;
     }
 
     if (keyIsDown(KEY_RIGHT_ARROW)) {
-      this.angle += this.rotationSpeed;
+      this.angle += this.rotationSpeed * deltaTime;
     }
   }
 
   shouldFireBullet() {
-    const isFire = keyIsDown(KEY_SPACE) && this.fireCooldown === 0;
+    return keyIsDown(KEY_SPACE) && this.fireCooldown === 0;
+  }
 
-    if (isFire) {
-      this.fireCooldown = this.initialCooldownTime;
-    }
-
-    return isFire;
+  setFireCooldown() {
+    this.fireCooldown = this.fireCooldownDuration;
   }
 }

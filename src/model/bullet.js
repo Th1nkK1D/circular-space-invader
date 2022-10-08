@@ -9,7 +9,7 @@ class Bullet {
   }
 
   draw() {
-    this.distance += this.speed;
+    this.distance += this.speed * deltaTime;
 
     translate(width / 2, height / 2);
     rotate(this.angle);

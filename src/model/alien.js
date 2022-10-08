@@ -1,6 +1,8 @@
 class Alien extends Fighter {
-  constructor(config) {
+  constructor({ fireCooldownDurationRange, ...config }) {
     super({ ...config, bulletClass: AlienBullet });
+
+    this.fireCooldownDurationRange = fireCooldownDurationRange;
   }
 
   drawBody() {
@@ -11,10 +13,18 @@ class Alien extends Fighter {
   }
 
   updateAngle() {
-    this.angle += this.rotationSpeed;
+    this.angle += this.rotationSpeed * deltaTime;
   }
 
   shouldFireBullet() {
-    return frameCount % 80 === 0;
+    return millis() % 1000 === 0;
+  }
+
+  shouldFireBullet() {
+    return this.fireCooldown === 0;
+  }
+
+  setFireCooldown() {
+    this.fireCooldown = random(...this.fireCooldownDurationRange);
   }
 }

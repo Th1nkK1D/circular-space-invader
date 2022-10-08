@@ -17,6 +17,7 @@ class Fighter {
     this.bulletClass = bulletClass;
     this.bulletSpeed = bulletSpeed;
     this.bulletHitBoxRadius = bulletHitBoxRadius;
+    this.fireCooldown = 0;
   }
 
   draw() {
@@ -29,6 +30,8 @@ class Fighter {
 
     resetMatrix();
 
+    this.fireCooldown = Math.max(this.fireCooldown - deltaTime, 0);
+
     if (this.shouldFireBullet()) {
       this.bulletSet.add(
         new this.bulletClass({
@@ -39,6 +42,8 @@ class Fighter {
           dispose: (bullet) => this.bulletSet.delete(bullet),
         })
       );
+
+      this.setFireCooldown();
     }
   }
 
@@ -47,4 +52,6 @@ class Fighter {
   updateAngle() {}
 
   shouldFireBullet() {}
+
+  setFireCooldown() {}
 }
