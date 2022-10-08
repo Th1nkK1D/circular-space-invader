@@ -22,7 +22,7 @@ class Player extends Fighter {
   }
 
   drawBody() {
-    fill(255);
+    fill(COLOR_WHITE);
     noStroke();
 
     const yOffset = -this.orbitalRadius;

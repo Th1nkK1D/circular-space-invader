@@ -54,7 +54,7 @@ function draw() {
 
   [player, ...ALIEN_LAYERS].forEach(({ orbitalRadius }) => {
     noFill();
-    stroke(255, 30);
+    stroke(COLOR_WHITE, 30);
     strokeWeight(2);
 
     circle(width / 2, height / 2, orbitalRadius * 2);
@@ -85,13 +85,11 @@ function draw() {
   });
 
   for (let b = 0; b < player.maxBullet; b++) {
-    strokeWeight(1);
-
     if (b < player.currentBullet) {
-      stroke(200);
-      fill(200);
+      fill(COLOR_WHITE, 150);
     } else {
-      stroke(150);
+      strokeWeight(1);
+      stroke(COLOR_WHITE, 150);
       noFill();
     }
 

@@ -13,7 +13,7 @@ class Alien extends Fighter {
     const yOffset = -this.orbitalRadius;
 
     noStroke();
-    fill(255);
+    fill(COLOR_WHITE);
 
     // body
     rect(-width / 2, -height / 2 + yOffset, width, height);
@@ -30,7 +30,7 @@ class Alien extends Fighter {
     rect(-dotSize / 2, -height / 2 - dotSize + yOffset, dotSize, dotSize);
 
     // eyes
-    fill(0);
+    fill(COLOR_BLACK);
     rect(
       -width / 2 + dotSize,
       -height / 2 + dotSize + yOffset,
@@ -47,10 +47,6 @@ class Alien extends Fighter {
 
   updateAngle() {
     this.angle += this.rotationSpeed * deltaTime;
-  }
-
-  shouldFireBullet() {
-    return millis() % 1000 === 0;
   }
 
   shouldFireBullet() {
