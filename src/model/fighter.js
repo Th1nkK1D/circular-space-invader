@@ -7,6 +7,7 @@ class Fighter {
     bulletSet = new Set(),
     bulletClass,
     bulletSpeed,
+    bulletHitBoxRadius,
   }) {
     this.radius = radius;
     this.orbitalRadius = orbitalRadius;
@@ -15,6 +16,7 @@ class Fighter {
     this.bulletSet = bulletSet;
     this.bulletClass = bulletClass;
     this.bulletSpeed = bulletSpeed;
+    this.bulletHitBoxRadius = bulletHitBoxRadius;
   }
 
   draw() {
@@ -33,6 +35,7 @@ class Fighter {
           distance: this.orbitalRadius,
           angle: this.angle,
           speed: this.bulletSpeed,
+          hitBoxRadius: this.bulletHitBoxRadius,
           dispose: (bullet) => this.bulletSet.delete(bullet),
         })
       );

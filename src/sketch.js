@@ -8,6 +8,7 @@ function setup() {
     orbitalRadius: 100,
     rotationSpeed: PI / 50,
     bulletSpeed: 3,
+    bulletHitBoxRadius: 5,
   });
 
   alien = new Alien({
@@ -15,6 +16,7 @@ function setup() {
     orbitalRadius: 250,
     rotationSpeed: PI / 200,
     bulletSpeed: -2,
+    bulletHitBoxRadius: 5,
   });
 }
 
@@ -24,6 +26,19 @@ function draw() {
   player.draw();
   alien.draw();
 
-  player.bulletSet.forEach((bullet) => bullet.draw());
-  alien.bulletSet.forEach((bullet) => bullet.draw());
+  player.bulletSet.forEach((bullet) => {
+    bullet.draw();
+
+    if (bullet.checkCollisionWithFighter(alien)) {
+      console.log('HIT ALIEN');
+    }
+  });
+
+  alien.bulletSet.forEach((bullet) => {
+    bullet.draw();
+
+    if (bullet.checkCollisionWithFighter(player)) {
+      console.log('HIT PLAYER');
+    }
+  });
 }
