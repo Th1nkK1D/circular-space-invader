@@ -1,4 +1,4 @@
-let player, aliens;
+let player, alienSet;
 
 const ALIEN_LAYERS = [
   {
@@ -25,10 +25,13 @@ function setup() {
     fireCooldownDuration: 150,
   });
 
-  aliens = ALIEN_LAYERS.flatMap(({ amount, orbitalRadius, rotationSpeed }) => {
+  alienSet = new Set();
+
+  ALIEN_LAYERS.forEach(({ amount, orbitalRadius, rotationSpeed }) => {
     const angleOffset = random(0, 2 * PI);
-    return new Array(amount).fill().map(
-      (_, i) =>
+
+    new Array(amount).fill().forEach((_, i) => {
+      alienSet.add(
         new Alien({
           radius: 15,
           angle: angleOffset + ((2 * PI) / amount) * i,
@@ -39,7 +42,8 @@ function setup() {
           fireCooldownDurationRange: [5000, 12000],
           initialFireCooldown: random(1000, 5000),
         })
-    );
+      );
+    });
   });
 }
 
@@ -56,14 +60,14 @@ function draw() {
 
   player.draw();
 
-  aliens.forEach((alien) => {
+  alienSet.forEach((alien) => {
     alien.draw();
 
     alien.bulletSet.forEach((bullet) => {
       bullet.draw();
 
       if (bullet.checkCollisionWithFighter(player)) {
-        console.log('HIT PLAYER');
+        console.log('GAMEOVER');
       }
     });
   });
@@ -71,9 +75,9 @@ function draw() {
   player.bulletSet.forEach((bullet) => {
     bullet.draw();
 
-    aliens.forEach((alien) => {
+    alienSet.forEach((alien) => {
       if (bullet.checkCollisionWithFighter(alien)) {
-        console.log('HIT ALIEN');
+        alienSet.delete(alien);
       }
     });
   });
