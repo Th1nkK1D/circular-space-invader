@@ -80,10 +80,11 @@ function draw() {
   } else {
     drawCutScene({
       title: 'CIRCULAR\nSPACE\nINVADER',
-      subtitle: 'PRESS <SPACE> TO START',
+      subtitle:
+        'Use ← → to move and <SPACE> to fire\n\n[ PRESS ANYKEY TO START ]',
     });
 
-    if (keyIsDown(KEY_SPACE)) {
+    if (keyIsPressed) {
       spawnPlayer();
       spawnAliens();
       isGameover = false;
@@ -176,6 +177,6 @@ function drawCutScene({ title, subtitle }) {
   textSize(42);
   text(title, width / 2, height / 2);
 
-  textSize(16);
+  textSize(18);
   text(subtitle, width / 2, height / 2 + 200);
 }
