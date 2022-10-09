@@ -1,20 +1,21 @@
 let player, alienSet, isPlaying, isGameover, scientificaFont;
 
+// Define orbit layer of aliens
 const ALIEN_LAYERS = [
   {
+    orbitalRadius: 300,
     amount: 3,
     rotationSpeed: Math.PI / 8000,
-    orbitalRadius: 300,
   },
   {
+    orbitalRadius: 375,
     amount: 5,
     rotationSpeed: -Math.PI / 10000,
-    orbitalRadius: 375,
   },
   {
+    orbitalRadius: 450,
     amount: 7,
     rotationSpeed: Math.PI / 14000,
-    orbitalRadius: 450,
   },
 ];
 
@@ -31,45 +32,46 @@ function setup() {
 
 function draw() {
   background(COLOR_BLACK);
-  textFont(scientificaFont);
-  textAlign('center', 'center');
 
   drawOrbitRings();
 
   if (isPlaying) {
+    // If some aliens are still alive
     if (alienSet.size > 0) {
+      // Draw aliens, alien's bullets and check collision with player
       alienSet.forEach((alien) => {
         alien.draw();
 
         alien.bulletSet.forEach((bullet) => {
           bullet.draw();
 
+          // If alien bullet hits player, game is over
           if (bullet.checkCollisionWithFighter(player)) {
-            alienSet.forEach((alien) => {
-              alien.isEnable = false;
-            });
-
             isGameover = true;
           }
         });
       });
     } else {
+      // All aliens are dead = Player win
       drawCutScene({
         title: 'YOU WIN',
         subtitle: 'PRESS <R> TO RESTART',
       });
 
+      // Press R to reset the game
       if (keyIsDown(KEY_R)) {
         spawnPlayer();
         spawnAliens();
       }
     }
 
+    // Draw player's bullets and check collision with every alien
     player.bulletSet.forEach((bullet) => {
       bullet.draw();
 
       alienSet.forEach((alien) => {
         if (bullet.checkCollisionWithFighter(alien)) {
+          // If bullet collide with alien, delete alien and speed op other aliens
           alienSet.delete(alien);
           alienSet.forEach((otherAlien) => otherAlien.speedUp());
         }
@@ -78,12 +80,14 @@ function draw() {
 
     drawBulletHUD();
   } else {
+    // Not playing = intro scene
     drawCutScene({
       title: 'CIRCULAR\nSPACE\nINVADER',
       subtitle:
         'Use ← → to move and <SPACE> to fire\n\n[ PRESS ANYKEY TO START ]',
     });
 
+    // Start game when any key is pressed
     if (keyIsPressed) {
       spawnPlayer();
       spawnAliens();
@@ -93,11 +97,13 @@ function draw() {
   }
 
   if (isGameover) {
+    // Game over scene
     drawCutScene({
       title: 'GAME OVER',
       subtitle: 'PRESS <R> TO RETRY',
     });
 
+    // Press R to restart the game
     if (keyIsDown(KEY_R)) {
       spawnPlayer();
       spawnAliens();
@@ -105,10 +111,12 @@ function draw() {
       isPlaying = true;
     }
   } else {
+    // Draw player when game is not over
     player.draw();
   }
 }
 
+// Assign player with new Player instance, enable player by default
 function spawnPlayer(isEnabled = true) {
   player = new Player({
     isEnabled,
@@ -123,8 +131,9 @@ function spawnPlayer(isEnabled = true) {
   });
 }
 
+// Create alien instances according to ALIEN_LAYERS and add to alienSet set
 function spawnAliens() {
-  alienSet = new Set();
+  alienSet = new Set(); // Set is JS data structure, similar to array but can be select by value instead of index
 
   ALIEN_LAYERS.forEach(({ amount, orbitalRadius, rotationSpeed }) => {
     const angleOffset = random(0, 2 * PI);
@@ -147,6 +156,7 @@ function spawnAliens() {
   });
 }
 
+// Draw player's and alien's orbit circle
 function drawOrbitRings() {
   [player, ...ALIEN_LAYERS].forEach(({ orbitalRadius }) => {
     noFill();
@@ -157,11 +167,14 @@ function drawOrbitRings() {
   });
 }
 
+// Draw player's bullet status
 function drawBulletHUD() {
   for (let b = 0; b < player.maxBullet; b++) {
     if (b < player.currentBullet) {
+      // Available bullets are filled
       fill(player.color);
     } else {
+      // Reloading bullets are outlined
       strokeWeight(1);
       stroke(COLOR_WHITE, 150);
       noFill();
@@ -171,7 +184,10 @@ function drawBulletHUD() {
   }
 }
 
+// Draw cut scene text with title and subtitle
 function drawCutScene({ title, subtitle }) {
+  textFont(scientificaFont);
+  textAlign('center', 'center');
   fill(COLOR_WHITE);
 
   textSize(42);

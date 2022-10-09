@@ -1,3 +1,4 @@
+// Fighter class (will be inherit by Player and Alien)
 class Fighter {
   constructor({
     radius,
@@ -26,10 +27,12 @@ class Fighter {
     this.isEnabled = isEnabled;
   }
 
+  // To be called in each frame
   draw() {
     if (this.isEnabled) {
       this.updateAngle();
 
+      // Deduct fireCooldown by delta time (min 0)
       this.fireCooldown = Math.max(this.fireCooldown - deltaTime, 0);
 
       if (this.fireCooldown === 0) {
@@ -39,6 +42,7 @@ class Fighter {
       if (this.shouldFireBullet()) {
         this.color = random(this.bulletColors);
 
+        // Create new bullet instance and add to bulletSet
         this.bulletSet.add(
           new this.bulletClass({
             distance: this.orbitalRadius,
@@ -54,20 +58,25 @@ class Fighter {
       }
     }
 
+    // Transform body shape around canvas center
     translate(width / 2, height / 2);
     rotate(this.angle);
     translate(0, -this.orbitalRadius);
 
     this.drawBody();
 
-    resetMatrix();
+    resetMatrix(); // Reset transformation for other shape
   }
 
+  // Draw body shape (to be implemented by subclass)
   drawBody() {}
 
+  // How to update angle in each frame (to be implemented by subclass)
   updateAngle() {}
 
+  // Return boolean if bullet will be fired in this frame (to be implemented by subclass)
   shouldFireBullet() {}
 
+  // Logic to set fireCooldown (to be implemented by subclass)
   setFireCooldown() {}
 }

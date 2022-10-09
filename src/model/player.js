@@ -1,3 +1,4 @@
+// Player class, inherit from Fighter
 class Player extends Fighter {
   constructor({
     fireCooldownDuration,
@@ -9,7 +10,7 @@ class Player extends Fighter {
       ...config,
       bulletClass: PlayerBullet,
       bulletColors: [COLOR_NEON_CYAN, COLOR_NEON_PINK, COLOR_NEON_YELLOW],
-    });
+    }); // Pass constuctor argument to Fighter's constructor
 
     this.fireCooldownDuration = fireCooldownDuration;
     this.currentBullet = maxBullet;
@@ -17,14 +18,17 @@ class Player extends Fighter {
     this.bulletReloadDuration = bulletReloadDuration;
   }
 
+  // Override fighter draw() to add refill bullet logic
   draw() {
+    // Refill bullet by deltaTime is currentBullet is not full
     if (this.currentBullet < this.maxBullet) {
       this.currentBullet += deltaTime / this.bulletReloadDuration;
     }
 
-    super.draw();
+    super.draw(); // Call Fighter's draw()
   }
 
+  // Draw body shape (spaceship)
   drawBody() {
     fill(this.color);
     noStroke();
@@ -57,6 +61,7 @@ class Player extends Fighter {
     );
   }
 
+  // Update angle according to the pressed arrow jey
   updateAngle() {
     if (keyIsDown(KEY_LEFT_ARROW)) {
       this.angle -= this.rotationSpeed * deltaTime;
@@ -67,6 +72,7 @@ class Player extends Fighter {
     }
   }
 
+  // Will fire bullet if space is pressed, no fire cooldown and bullet is available
   shouldFireBullet() {
     const isFire =
       keyIsDown(KEY_SPACE) && this.fireCooldown === 0 && this.currentBullet > 0;
@@ -78,6 +84,7 @@ class Player extends Fighter {
     return isFire;
   }
 
+  // Set fireCooldown to be initial fireCooldownDuration
   setFireCooldown() {
     this.fireCooldown = this.fireCooldownDuration;
   }

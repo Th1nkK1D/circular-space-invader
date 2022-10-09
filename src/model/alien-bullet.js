@@ -1,6 +1,8 @@
+// AlienBullet class, inherit from Bullet
 class AlienBullet extends Bullet {
-  drawBody(y) {
+  // Draw player's buller shape
+  drawBody() {
     fill(this.color);
-    circle(0, y, this.hitboxRedius * 2);
+    circle(0, 0, this.hitboxRedius * 2);
   }
 }

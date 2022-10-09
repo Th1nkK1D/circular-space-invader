@@ -1,14 +1,16 @@
+// Player class, inherit from Fighter
 class Alien extends Fighter {
   constructor({ fireCooldownDurationRange, ...config }) {
     super({
       ...config,
       bulletClass: AlienBullet,
       bulletColors: [COLOR_NEON_RED],
-    });
+    }); // Pass constuctor argument to Fighter's constructor
 
     this.fireCooldownDurationRange = fireCooldownDurationRange;
   }
 
+  // Draw body shape (alien)
   drawBody() {
     const width = this.radius * 1.8;
     const height = this.radius * 1.5;
@@ -37,18 +39,22 @@ class Alien extends Fighter {
     rect(width / 2 - 2 * dotSize, -height / 2 + dotSize, dotSize, dotSize);
   }
 
+  // Update angle by rotationSpeed
   updateAngle() {
     this.angle += this.rotationSpeed * deltaTime;
   }
 
+  // Fire bullet when fireCooldown is 0
   shouldFireBullet() {
     return this.fireCooldown === 0;
   }
 
+  // Fire cooldown will be randomed in fireCooldownDurationRange
   setFireCooldown() {
     this.fireCooldown = random(...this.fireCooldownDurationRange);
   }
 
+  // Speedup alien rotation and bullet speed, and fire coold
   speedUp() {
     this.rotationSpeed *= 1.1;
     this.bulletSpeed *= 1.05;
