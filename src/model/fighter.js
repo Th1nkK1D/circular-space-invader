@@ -10,6 +10,7 @@ class Fighter {
     bulletHitBoxRadius,
     initialFireCooldown = 0,
     bulletColors,
+    isEnabled = false,
   }) {
     this.radius = radius;
     this.orbitalRadius = orbitalRadius;
@@ -22,32 +23,35 @@ class Fighter {
     this.fireCooldown = initialFireCooldown;
     this.bulletColors = bulletColors;
     this.color = COLOR_WHITE;
+    this.isEnabled = isEnabled;
   }
 
   draw() {
-    this.updateAngle();
+    if (this.isEnabled) {
+      this.updateAngle();
 
-    this.fireCooldown = Math.max(this.fireCooldown - deltaTime, 0);
+      this.fireCooldown = Math.max(this.fireCooldown - deltaTime, 0);
 
-    if (this.fireCooldown === 0) {
-      this.color = COLOR_WHITE;
-    }
+      if (this.fireCooldown === 0) {
+        this.color = COLOR_WHITE;
+      }
 
-    if (this.shouldFireBullet()) {
-      this.color = random(this.bulletColors);
+      if (this.shouldFireBullet()) {
+        this.color = random(this.bulletColors);
 
-      this.bulletSet.add(
-        new this.bulletClass({
-          distance: this.orbitalRadius,
-          angle: this.angle,
-          speed: this.bulletSpeed,
-          hitBoxRadius: this.bulletHitBoxRadius,
-          color: this.color,
-          dispose: (bullet) => this.bulletSet.delete(bullet),
-        })
-      );
+        this.bulletSet.add(
+          new this.bulletClass({
+            distance: this.orbitalRadius,
+            angle: this.angle,
+            speed: this.bulletSpeed,
+            hitBoxRadius: this.bulletHitBoxRadius,
+            color: this.color,
+            dispose: (bullet) => this.bulletSet.delete(bullet),
+          })
+        );
 
-      this.setFireCooldown();
+        this.setFireCooldown();
+      }
     }
 
     translate(width / 2, height / 2);
