@@ -2,9 +2,14 @@ let player, alienSet;
 
 const ALIEN_LAYERS = [
   {
+    amount: 3,
+    rotationSpeed: Math.PI / 8000,
+    orbitalRadius: 300,
+  },
+  {
     amount: 5,
     rotationSpeed: -Math.PI / 10000,
-    orbitalRadius: 350,
+    orbitalRadius: 375,
   },
   {
     amount: 7,
@@ -42,7 +47,7 @@ function setup() {
           bulletSpeed: -0.15,
           bulletHitBoxRadius: 5,
           fireCooldownDurationRange: [5000, 12000],
-          initialFireCooldown: random(1000, 5000),
+          initialFireCooldown: random(0, 7000),
         })
       );
     }
@@ -74,6 +79,7 @@ function draw() {
     alienSet.forEach((alien) => {
       if (bullet.checkCollisionWithFighter(alien)) {
         alienSet.delete(alien);
+        alienSet.forEach((otherAlien) => otherAlien.speedUp());
       }
     });
   });

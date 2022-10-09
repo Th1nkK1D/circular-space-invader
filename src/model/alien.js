@@ -60,4 +60,12 @@ class Alien extends Fighter {
   setFireCooldown() {
     this.fireCooldown = random(...this.fireCooldownDurationRange);
   }
+
+  speedUp() {
+    this.rotationSpeed *= 1.1;
+    this.bulletSpeed *= 1.05;
+    this.fireCooldownDurationRange = this.fireCooldownDurationRange.map(
+      (value) => value * 0.9
+    );
+  }
 }
