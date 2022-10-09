@@ -14,39 +14,27 @@ class Alien extends Fighter {
     const height = this.radius * 1.5;
     const dotSize = this.radius / 3;
 
-    const yOffset = -this.orbitalRadius;
-
     noStroke();
     fill(COLOR_NEON_PURPLE);
 
     // body
-    rect(-width / 2, -height / 2 + yOffset, width, height);
+    rect(-width / 2, -height / 2, width, height);
 
     // arms
-    rect(-width / 2 - dotSize, -dotSize / 2 + yOffset, dotSize, dotSize);
-    rect(width / 2, -dotSize / 2 + yOffset, dotSize, dotSize);
+    rect(-width / 2 - dotSize, -dotSize / 2, dotSize, dotSize);
+    rect(width / 2, -dotSize / 2, dotSize, dotSize);
 
     // legs
-    rect((dotSize - width) / 2, height / 2 + yOffset, dotSize, dotSize);
-    rect(width / 2 - 2 * dotSize, height / 2 + yOffset, dotSize, dotSize);
+    rect((dotSize - width) / 2, height / 2, dotSize, dotSize);
+    rect(width / 2 - 2 * dotSize, height / 2, dotSize, dotSize);
 
     // hat
-    rect(-dotSize / 2, -height / 2 - dotSize + yOffset, dotSize, dotSize);
+    rect(-dotSize / 2, -height / 2 - dotSize, dotSize, dotSize);
 
     // eyes
     fill(COLOR_BLACK);
-    rect(
-      -width / 2 + dotSize,
-      -height / 2 + dotSize + yOffset,
-      dotSize,
-      dotSize
-    );
-    rect(
-      width / 2 - 2 * dotSize,
-      -height / 2 + dotSize + yOffset,
-      dotSize,
-      dotSize
-    );
+    rect(-width / 2 + dotSize, -height / 2 + dotSize, dotSize, dotSize);
+    rect(width / 2 - 2 * dotSize, -height / 2 + dotSize, dotSize, dotSize);
   }
 
   updateAngle() {

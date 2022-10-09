@@ -52,6 +52,7 @@ class Fighter {
 
     translate(width / 2, height / 2);
     rotate(this.angle);
+    translate(0, -this.orbitalRadius);
 
     this.drawBody();
 
