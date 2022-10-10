@@ -4,23 +4,23 @@
  * Play on the web - https://th1nkk1d.github.io/circular-space-invader
  */
 
-let player, alienSet, gameState, scientificaFont, msElapsed;
+let player, alienSet, debrisSet, gameState, scientificaFont, msElapsed;
 
 // Define orbit layer of aliens
 const ALIEN_LAYERS = [
   {
     orbitalRadius: 300,
-    amount: 3,
+    amount: 4,
     rotationSpeed: Math.PI / 8000,
   },
   {
     orbitalRadius: 375,
-    amount: 4,
+    amount: 5,
     rotationSpeed: -Math.PI / 10000,
   },
   {
     orbitalRadius: 450,
-    amount: 5,
+    amount: 6,
     rotationSpeed: Math.PI / 14000,
   },
 ];
@@ -29,8 +29,8 @@ function setup() {
   createCanvas(1000, 1000);
 
   scientificaFont = loadFont('fonts/scientifica.ttf');
-
   gameState = STATE_INTRO;
+  debrisSet = new Set();
 
   spawnPlayer(false);
 }
@@ -39,6 +39,8 @@ function draw() {
   background(COLOR_BLACK);
 
   drawOrbitRings();
+
+  debrisSet.forEach((debris) => debris.draw());
 
   if (gameState === STATE_INTRO) {
     // Intro scene
@@ -54,10 +56,14 @@ function draw() {
       bullet.draw();
 
       alienSet.forEach((alien) => {
-        if (bullet.checkCollisionWithFighter(alien)) {
+        const collidePosition = bullet.checkCollisionWithFighter(alien);
+
+        if (collidePosition) {
           // If bullet collide with alien, delete alien and speed op other aliens
           alienSet.delete(alien);
           alienSet.forEach((otherAlien) => otherAlien.speedUp());
+
+          spawnDebris(collidePosition, bullet.color);
         }
       });
     });
@@ -83,9 +89,14 @@ function draw() {
       alien.bulletSet.forEach((bullet) => {
         bullet.draw();
 
-        // If alien bullet hits player, game is over
-        if (bullet.checkCollisionWithFighter(player)) {
-          gameState = STATE_GAMEOVER;
+        if (gameState !== STATE_GAMEOVER) {
+          const collidePosition = bullet.checkCollisionWithFighter(player);
+
+          if (collidePosition) {
+            // If alien bullet hits player, game is over
+            spawnDebris(collidePosition, bullet.color);
+            gameState = STATE_GAMEOVER;
+          }
         }
       });
     });
@@ -119,46 +130,6 @@ function startGame() {
   spawnAliens();
   msElapsed = 0;
   gameState = STATE_PLAYING;
-}
-
-// Assign player with new Player instance, enable player by default
-function spawnPlayer(isEnabled = true) {
-  player = new Player({
-    isEnabled,
-    radius: 15,
-    orbitalRadius: 150,
-    rotationSpeed: PI / 900,
-    bulletSpeed: 0.3,
-    bulletHitBoxRadius: 5,
-    fireCooldownDuration: 150,
-    maxBullet: 10,
-    bulletReloadDuration: 400,
-  });
-}
-
-// Create alien instances according to ALIEN_LAYERS and add to alienSet set
-function spawnAliens() {
-  alienSet = new Set(); // Set is JS data structure, similar to array but can be select by value instead of index
-
-  ALIEN_LAYERS.forEach(({ amount, orbitalRadius, rotationSpeed }) => {
-    const angleOffset = random(0, 2 * PI);
-
-    for (let i = 0; i < amount; i++) {
-      alienSet.add(
-        new Alien({
-          isEnabled: true,
-          radius: 15,
-          angle: angleOffset + ((2 * PI) / amount) * i,
-          rotationSpeed,
-          orbitalRadius,
-          bulletSpeed: -0.15,
-          bulletHitBoxRadius: 5,
-          fireCooldownDurationRange: [5000, 12000],
-          initialFireCooldown: random(0, 7000),
-        })
-      );
-    }
-  });
 }
 
 // Draw player's and alien's orbit circle
@@ -217,5 +188,63 @@ function drawCutScene({ title, subtitle, startGameOn }) {
 
   if (startGameOn()) {
     startGame();
+  }
+}
+
+// Assign player with new Player instance, enable player by default
+function spawnPlayer(isEnabled = true) {
+  player = new Player({
+    isEnabled,
+    radius: 15,
+    orbitalRadius: 150,
+    rotationSpeed: PI / 900,
+    bulletSpeed: 0.3,
+    bulletRadius: 5,
+    fireCooldownDuration: 150,
+    maxBullet: 10,
+    bulletReloadDuration: 400,
+  });
+}
+
+// Create alien instances according to ALIEN_LAYERS and add to alienSet set
+function spawnAliens() {
+  alienSet = new Set(); // Set is JS data structure, similar to array but can be select by value instead of index
+
+  ALIEN_LAYERS.forEach(({ amount, orbitalRadius, rotationSpeed }) => {
+    const angleOffset = random(0, 2 * PI);
+
+    for (let i = 0; i < amount; i++) {
+      alienSet.add(
+        new Alien({
+          isEnabled: true,
+          radius: 15,
+          angle: angleOffset + ((2 * PI) / amount) * i,
+          rotationSpeed,
+          orbitalRadius,
+          bulletSpeed: -0.15,
+          bulletRadius: 5,
+          fireCooldownDurationRange: [5000, 12000],
+          initialFireCooldown: random(0, 7000),
+        })
+      );
+    }
+  });
+}
+
+// Spawn debris and add to debrisSet
+function spawnDebris([x, y], color) {
+  for (let d = 0; d < random(10, 12); d++) {
+    debrisSet.add(
+      new Debris({
+        radius: random(1, 4),
+        origin: [x + width / 2, y + width / 2],
+        distance: 0,
+        angle: random(0, 2 * PI),
+        speed: 0.02,
+        color: color,
+        distanceToDisposed: random(20, 40),
+        dispose: (debris) => debrisSet.delete(debris),
+      })
+    );
   }
 }

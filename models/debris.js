@@ -4,14 +4,10 @@
  * Play on the web - https://th1nkk1d.github.io/circular-space-invader
  */
 
-// PlayerBullet class, inherit from Bullet
-class PlayerBullet extends Bullet {
-  // Draw player's buller shape
+// Debris class inherit from Particle
+class Debris extends Particle {
   drawBody() {
-    const width = this.radius * 1.1;
-    const height = this.radius * 2.2;
-
     fill(this.color);
-    rect(-width / 2, -height / 2, width, height);
+    circle(0, 0, this.radius * 2);
   }
 }

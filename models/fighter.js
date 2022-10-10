@@ -14,7 +14,7 @@ class Fighter {
     bulletSet = new Set(),
     bulletClass,
     bulletSpeed,
-    bulletHitBoxRadius,
+    bulletRadius,
     initialFireCooldown = 0,
     bulletColors,
     isEnabled = false,
@@ -26,7 +26,7 @@ class Fighter {
     this.bulletSet = bulletSet;
     this.bulletClass = bulletClass;
     this.bulletSpeed = bulletSpeed;
-    this.bulletHitBoxRadius = bulletHitBoxRadius;
+    this.bulletRadius = bulletRadius;
     this.fireCooldown = initialFireCooldown;
     this.bulletColors = bulletColors;
     this.color = COLOR_WHITE;
@@ -37,6 +37,13 @@ class Fighter {
   draw() {
     if (this.isEnabled) {
       this.updateAngle();
+
+      // Loop angle in range 0 to 2*PI
+      if (this.angle > 2 * PI) {
+        this.angle = this.angle - 2 * PI;
+      } else if (this.angle < 0) {
+        this.angle = 2 * PI + this.angle;
+      }
 
       // Deduct fireCooldown by delta time (min 0)
       this.fireCooldown = Math.max(this.fireCooldown - deltaTime, 0);
@@ -54,7 +61,7 @@ class Fighter {
             distance: this.orbitalRadius,
             angle: this.angle,
             speed: this.bulletSpeed,
-            hitBoxRadius: this.bulletHitBoxRadius,
+            radius: this.bulletRadius,
             color: this.color,
             dispose: (bullet) => this.bulletSet.delete(bullet),
           })
