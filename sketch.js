@@ -90,7 +90,7 @@ function draw() {
     drawCutScene({
       title: 'CIRCULAR\nSPACE\nINVADER',
       subtitle:
-        'Use ← → to move and <SPACE> to fire\n\n[ PRESS ANYKEY TO START ]',
+        'Use ← → to move and <SPACE> to fire\n\n[ PRESS ANY KEY TO START ]',
     });
 
     // Start game when any key is pressed
@@ -128,7 +128,7 @@ function spawnPlayer(isEnabled = true) {
     isEnabled,
     radius: 15,
     orbitalRadius: 150,
-    rotationSpeed: PI / 800,
+    rotationSpeed: PI / 900,
     bulletSpeed: 0.3,
     bulletHitBoxRadius: 5,
     fireCooldownDuration: 150,
