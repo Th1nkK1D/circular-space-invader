@@ -1,7 +1,6 @@
 {
   "include": [
-    "src/**/*.js",
-    "libraries/*.js",
+    "**/*.js",
     "/home/lkz/.vscode/extensions/samplavigne.p5-vscode-1.2.11/p5types/global.d.ts"
   ]
 }
