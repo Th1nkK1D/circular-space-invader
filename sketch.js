@@ -22,7 +22,7 @@ const ALIEN_LAYERS = [
 function setup() {
   createCanvas(1000, 1000);
 
-  scientificaFont = loadFont('src/fonts/scientifica.ttf');
+  scientificaFont = loadFont('fonts/scientifica.ttf');
 
   isPlaying = false;
   isGameover = false;

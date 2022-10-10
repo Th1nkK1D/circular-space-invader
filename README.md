@@ -7,9 +7,8 @@ Play on https://th1nkk1d.github.io/circular-space-invader/
 
 ## File structure
 - `index.html` - Entrypoint which import all JS file
-- `/src`
-  - `/fonts` Contain font file
-  - `/model` Contain JS classes, one file per one class
-  - `constants.js` Global constants including key code and color
-  - `sketch.js` p5.js entry point with load and setup function
-  - `style.css` Global CSS stylesheet
+- `style.css` Global CSS stylesheet
+- `sketch.js` p5.js entry point with load and setup function
+- `constants.js` Global constants including key code and color
+- `/models` Contain JS classes, one file per one class
+- `/fonts` Contain font file
