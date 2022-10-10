@@ -4,7 +4,7 @@
  * Play on the web - https://th1nkk1d.github.io/circular-space-invader
  */
 
-let player, alienSet, isPlaying, isGameover, scientificaFont;
+let player, alienSet, gameState, scientificaFont, msElapsed;
 
 // Define orbit layer of aliens
 const ALIEN_LAYERS = [
@@ -15,12 +15,12 @@ const ALIEN_LAYERS = [
   },
   {
     orbitalRadius: 375,
-    amount: 5,
+    amount: 4,
     rotationSpeed: -Math.PI / 10000,
   },
   {
     orbitalRadius: 450,
-    amount: 7,
+    amount: 5,
     rotationSpeed: Math.PI / 14000,
   },
 ];
@@ -30,8 +30,7 @@ function setup() {
 
   scientificaFont = loadFont('fonts/scientifica.ttf');
 
-  isPlaying = false;
-  isGameover = false;
+  gameState = STATE_INTRO;
 
   spawnPlayer(false);
 }
@@ -41,36 +40,15 @@ function draw() {
 
   drawOrbitRings();
 
-  if (isPlaying) {
-    // If some aliens are still alive
-    if (alienSet.size > 0) {
-      // Draw aliens, alien's bullets and check collision with player
-      alienSet.forEach((alien) => {
-        alien.draw();
-
-        alien.bulletSet.forEach((bullet) => {
-          bullet.draw();
-
-          // If alien bullet hits player, game is over
-          if (bullet.checkCollisionWithFighter(player)) {
-            isGameover = true;
-          }
-        });
-      });
-    } else {
-      // All aliens are dead = Player win
-      drawCutScene({
-        title: 'YOU WIN',
-        subtitle: 'PRESS <R> TO RESTART',
-      });
-
-      // Press R to reset the game
-      if (keyIsDown(KEY_R)) {
-        spawnPlayer();
-        spawnAliens();
-      }
-    }
-
+  if (gameState === STATE_INTRO) {
+    // Intro scene
+    drawCutScene({
+      title: 'CIRCULAR\nSPACE\nINVADER',
+      subtitle:
+        'Use ← → to move and <SPACE> to fire\n\n[ PRESS ANY KEY TO START ]',
+      startGameOn: () => keyIsPressed,
+    });
+  } else {
     // Draw player's bullets and check collision with every alien
     player.bulletSet.forEach((bullet) => {
       bullet.draw();
@@ -84,42 +62,63 @@ function draw() {
       });
     });
 
+    drawTimeElapsed();
     drawBulletHUD();
-  } else {
-    // Not playing = intro scene
-    drawCutScene({
-      title: 'CIRCULAR\nSPACE\nINVADER',
-      subtitle:
-        'Use ← → to move and <SPACE> to fire\n\n[ PRESS ANY KEY TO START ]',
-    });
+  }
 
-    // Start game when any key is pressed
-    if (keyIsPressed) {
-      spawnPlayer();
-      spawnAliens();
-      isGameover = false;
-      isPlaying = true;
+  if (gameState === STATE_PLAYING) {
+    msElapsed += deltaTime;
+
+    if (alienSet.size === 0) {
+      // No alien left = player win
+      gameState = STATE_WIN;
     }
   }
 
-  if (isGameover) {
+  if (gameState === STATE_PLAYING || gameState === STATE_GAMEOVER) {
+    // Draw aliens, alien's bullets and check collision with player
+    alienSet.forEach((alien) => {
+      alien.draw();
+
+      alien.bulletSet.forEach((bullet) => {
+        bullet.draw();
+
+        // If alien bullet hits player, game is over
+        if (bullet.checkCollisionWithFighter(player)) {
+          gameState = STATE_GAMEOVER;
+        }
+      });
+    });
+  }
+
+  if (gameState === STATE_WIN) {
+    // All aliens are dead = Player win
+    drawCutScene({
+      title: 'YOU WIN',
+      subtitle: 'PRESS <R> TO RESTART',
+      startGameOn: () => keyIsDown(KEY_R),
+    });
+  }
+
+  if (gameState === STATE_GAMEOVER) {
     // Game over scene
     drawCutScene({
       title: 'GAME OVER',
       subtitle: 'PRESS <R> TO RETRY',
+      startGameOn: () => keyIsDown(KEY_R),
     });
-
-    // Press R to restart the game
-    if (keyIsDown(KEY_R)) {
-      spawnPlayer();
-      spawnAliens();
-      isGameover = false;
-      isPlaying = true;
-    }
   } else {
     // Draw player when game is not over
     player.draw();
   }
+}
+
+// Start the game
+function startGame() {
+  spawnPlayer();
+  spawnAliens();
+  msElapsed = 0;
+  gameState = STATE_PLAYING;
 }
 
 // Assign player with new Player instance, enable player by default
@@ -173,6 +172,20 @@ function drawOrbitRings() {
   });
 }
 
+function drawTimeElapsed() {
+  const secondElapsed = (msElapsed / 1000).toLocaleString(undefined, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+
+  textFont(scientificaFont);
+  textAlign('left', 'top');
+  fill(COLOR_WHITE);
+
+  textSize(24);
+  text(secondElapsed, 10, 10);
+}
+
 // Draw player's bullet status
 function drawBulletHUD() {
   for (let b = 0; b < player.maxBullet; b++) {
@@ -191,7 +204,7 @@ function drawBulletHUD() {
 }
 
 // Draw cut scene text with title and subtitle
-function drawCutScene({ title, subtitle }) {
+function drawCutScene({ title, subtitle, startGameOn }) {
   textFont(scientificaFont);
   textAlign('center', 'center');
   fill(COLOR_WHITE);
@@ -201,4 +214,8 @@ function drawCutScene({ title, subtitle }) {
 
   textSize(18);
   text(subtitle, width / 2, height / 2 + 200);
+
+  if (startGameOn()) {
+    startGame();
+  }
 }

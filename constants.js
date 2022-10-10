@@ -17,3 +17,8 @@ const COLOR_NEON_YELLOW = '#FFC600';
 const COLOR_NEON_CYAN = '#00FFDD';
 const COLOR_NEON_RED = '#FF1700';
 const COLOR_NEON_PURPLE = '#8843F2';
+// Game state
+const STATE_INTRO = 'intro';
+const STATE_PLAYING = 'playing';
+const STATE_WIN = 'win';
+const STATE_GAMEOVER = 'gameover';
