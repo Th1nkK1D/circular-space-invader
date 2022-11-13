@@ -109,7 +109,7 @@ class Player extends Fighter {
       map(abs(this.rotationSpeed), 0, this.maxRotationSpeed, min, max);
 
     this.movementOscillator.freq(mapRotationSpeed(100, 250));
-    this.movementOscillator.amp(mapRotationSpeed(0, 0.005));
+    this.movementOscillator.amp(mapRotationSpeed(0, 0.002));
   }
 
   // Will fire bullet if space is pressed, no fire cooldown and bullet is available
@@ -119,6 +119,10 @@ class Player extends Fighter {
 
     if (isFire) {
       this.currentBullet--;
+
+      // Play sound with random rate
+      laserSound.rate(random(0.8, 1.2));
+      laserSound.play();
     }
 
     return isFire;

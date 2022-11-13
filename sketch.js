@@ -4,7 +4,15 @@
  * Play on the web - https://th1nkk1d.github.io/circular-space-invader
  */
 
-let player, alienSet, debrisSet, gameState, scientificaFont, msElapsed;
+let player,
+  alienSet,
+  debrisSet,
+  gameState,
+  scientificaFont,
+  msElapsed,
+  laserSound,
+  hitEnermySound,
+  hitPlayerSound;
 
 // Define orbit layer of aliens
 const ALIEN_LAYERS = [
@@ -25,12 +33,25 @@ const ALIEN_LAYERS = [
   },
 ];
 
+function preload() {
+  scientificaFont = loadFont('fonts/scientifica.ttf');
+  // Sound from https://freesound.org/people/kafokafo/sounds/128349/
+  laserSound = loadSound('sounds/128349__kafokafo__laser.mp3');
+  // Sound from https://freesound.org/people/InspectorJ/sounds/411642/
+  hitEnermySound = loadSound('sounds/411642__inspectorj__pop-high-a-h1.mp3');
+  // Sound from https://freesound.org/people/mitchelk/sounds/136765/
+  hitPlayerSound = loadSound('sounds/136765__mitchelk__explode001.wav');
+}
+
 function setup() {
   createCanvas(1000, 1000);
 
-  scientificaFont = loadFont('fonts/scientifica.ttf');
   gameState = STATE_INTRO;
   debrisSet = new Set();
+
+  laserSound.setVolume(0.3);
+  hitEnermySound.setVolume(0.5);
+  hitPlayerSound.setVolume(0.5);
 
   spawnPlayer(false);
 }
@@ -64,6 +85,10 @@ function draw() {
           alienSet.forEach((otherAlien) => otherAlien.speedUp());
 
           spawnDebris(collidePosition, bullet.color);
+
+          // Play sound with random rate
+          hitEnermySound.rate(random(0.6, 0.8));
+          hitEnermySound.play();
         }
       });
     });
@@ -96,6 +121,9 @@ function draw() {
             // If alien bullet hits player, game is over
             spawnDebris(collidePosition, bullet.color);
             gameState = STATE_GAMEOVER;
+
+            player.movementOscillator.stop();
+            hitPlayerSound.play();
           }
         }
       });
