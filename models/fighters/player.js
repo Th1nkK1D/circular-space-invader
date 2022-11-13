@@ -108,8 +108,8 @@ class Player extends Fighter {
     const mapRotationSpeed = (min, max) =>
       map(abs(this.rotationSpeed), 0, this.maxRotationSpeed, min, max);
 
-    this.movementOscillator.freq(mapRotationSpeed(100, 250));
-    this.movementOscillator.amp(mapRotationSpeed(0, 0.002));
+    this.movementOscillator.freq(mapRotationSpeed(50, 200));
+    this.movementOscillator.amp(mapRotationSpeed(0, 0.02));
   }
 
   // Will fire bullet if space is pressed, no fire cooldown and bullet is available

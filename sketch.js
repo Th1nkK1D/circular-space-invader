@@ -12,7 +12,10 @@ let player,
   msElapsed,
   laserSound,
   hitEnermySound,
-  hitPlayerSound;
+  hitPlayerSound,
+  winSound,
+  bgMusic,
+  bgMusicRate;
 
 // Define orbit layer of aliens
 const ALIEN_LAYERS = [
@@ -41,6 +44,12 @@ function preload() {
   hitEnermySound = loadSound('sounds/411642__inspectorj__pop-high-a-h1.mp3');
   // Sound from https://freesound.org/people/mitchelk/sounds/136765/
   hitPlayerSound = loadSound('sounds/136765__mitchelk__explode001.wav');
+  // Sound from https://freesound.org/people/Tuudurt/sounds/275104/
+  winSound = loadSound('sounds/275104__tuudurt__piglevelwin2.mp3');
+  // Sound from https://freesound.org/people/eardeer/sounds/401613/
+  bgMusic = loadSound(
+    'sounds/401613__eardeer__cheeserider-loop-155bpm-8bars.mp3'
+  );
 }
 
 function setup() {
@@ -49,9 +58,14 @@ function setup() {
   gameState = STATE_INTRO;
   debrisSet = new Set();
 
-  laserSound.setVolume(0.3);
-  hitEnermySound.setVolume(0.5);
-  hitPlayerSound.setVolume(0.5);
+  laserSound.setVolume(0.4);
+  hitEnermySound.setVolume(0.6);
+  hitPlayerSound.setVolume(0.6);
+  winSound.setVolume(0.2);
+
+  bgMusic.setVolume(0.1);
+  bgMusic.playMode('restart');
+  bgMusic.setLoop(true);
 
   spawnPlayer(false);
 }
@@ -89,6 +103,10 @@ function draw() {
           // Play sound with random rate
           hitEnermySound.rate(random(0.6, 0.8));
           hitEnermySound.play();
+
+          // Speedup bg music
+          bgMusicRate *= 1.005;
+          bgMusic.rate(bgMusicRate);
         }
       });
     });
@@ -103,6 +121,8 @@ function draw() {
     if (alienSet.size === 0) {
       // No alien left = player win
       gameState = STATE_WIN;
+      bgMusic.stop();
+      winSound.play();
     }
   }
 
@@ -124,6 +144,7 @@ function draw() {
 
             player.movementOscillator.stop();
             hitPlayerSound.play();
+            bgMusic.stop();
           }
         }
       });
@@ -158,6 +179,10 @@ function startGame() {
   spawnAliens();
   msElapsed = 0;
   gameState = STATE_PLAYING;
+
+  bgMusicRate = 0.9;
+  bgMusic.rate(bgMusicRate);
+  bgMusic.play();
 }
 
 // Draw player's and alien's orbit circle
