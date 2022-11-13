@@ -10,10 +10,13 @@ class Player extends Fighter {
     fireCooldownDuration,
     maxBullet,
     bulletReloadDuration,
+    maxRotationSpeed,
+    rotationAcceleration,
     ...config
   }) {
     super({
       ...config,
+      rotationSpeed: 0,
       bulletClass: PlayerBullet,
       bulletColors: [COLOR_NEON_CYAN, COLOR_NEON_PINK, COLOR_NEON_YELLOW],
     }); // Pass constuctor argument to Fighter's constructor
@@ -22,6 +25,8 @@ class Player extends Fighter {
     this.currentBullet = maxBullet;
     this.maxBullet = maxBullet;
     this.bulletReloadDuration = bulletReloadDuration;
+    this.maxRotationSpeed = maxRotationSpeed;
+    this.rotationAcceleration = rotationAcceleration;
   }
 
   // Override fighter draw() to add refill bullet logic
@@ -70,12 +75,28 @@ class Player extends Fighter {
   // Update angle according to the pressed arrow jey
   updateAngle() {
     if (keyIsDown(KEY_LEFT_ARROW)) {
-      this.angle -= this.rotationSpeed * deltaTime;
+      this.rotationSpeed = max(
+        this.rotationSpeed - this.rotationAcceleration * deltaTime,
+        -this.maxRotationSpeed
+      );
+    } else if (keyIsDown(KEY_RIGHT_ARROW)) {
+      this.rotationSpeed = min(
+        this.rotationSpeed + this.rotationAcceleration * deltaTime,
+        this.maxRotationSpeed
+      );
+    } else if (this.rotationSpeed > 0) {
+      this.rotationSpeed = max(
+        this.rotationSpeed - this.rotationAcceleration * deltaTime,
+        0
+      );
+    } else {
+      this.rotationSpeed = min(
+        this.rotationSpeed + this.rotationAcceleration * deltaTime,
+        0
+      );
     }
 
-    if (keyIsDown(KEY_RIGHT_ARROW)) {
       this.angle += this.rotationSpeed * deltaTime;
-    }
   }
 
   // Will fire bullet if space is pressed, no fire cooldown and bullet is available
