@@ -5,7 +5,7 @@
  */
 
 // Particle class (to be inherited by Bullet and Debris)
-class Particle {
+class Particle extends PolarObject {
   constructor({
     radius,
     origin,
@@ -16,10 +16,13 @@ class Particle {
     dispose,
     distanceToDisposed,
   }) {
+    super({
+      origin,
+      r: distance,
+      theta: angle,
+    });
+
     this.radius = radius;
-    this.origin = origin;
-    this.distance = distance;
-    this.angle = angle;
     this.speed = speed;
     this.color = color;
     this.dispose = dispose;
@@ -29,23 +32,13 @@ class Particle {
   // To be called in each frame
   draw() {
     // Move paricle according to speed
-    this.distance += this.speed * deltaTime;
+    this.coord.r += this.speed * deltaTime;
 
-    // Transform body shape around canvas center
-    translate(...this.origin);
-    rotate(this.angle);
-    translate(0, -this.distance);
-
-    this.drawBody();
-
-    resetMatrix();
+    this.drawBodyInPolarCoordSpace();
 
     // Dispose particle if it travel beyond distanceToDisposed
-    if (abs(this.distance) > this.distanceToDisposed) {
+    if (abs(this.coord.r) > this.distanceToDisposed) {
       this.dispose(this);
     }
   }
-
-  // Draw body shape (to be implemented by subclass)
-  drawBody() {}
 }

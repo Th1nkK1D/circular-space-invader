@@ -16,11 +16,8 @@ class Bullet extends Particle {
 
   // Check if the bullet collide with given fighter (using circle hit/hurt box) and return collided fighter position
   checkCollisionWithFighter(fighter) {
-    const [fx, fy] = this.convertPolarToCartesian(
-      fighter.angle,
-      fighter.orbitalRadius
-    );
-    const [bx, by] = this.convertPolarToCartesian(this.angle, this.distance);
+    const [fx, fy] = fighter.getCartesianCoord();
+    const [bx, by] = this.getCartesianCoord();
 
     const distanceFromBulletToFighter = sqrt(pow(fx - bx, 2) + pow(fy - by, 2));
 
@@ -34,14 +31,5 @@ class Bullet extends Particle {
     }
 
     return null; // Return null if not
-  }
-
-  // Convert polay coordinate to cartesian coordinate
-  convertPolarToCartesian(angle, radius) {
-    const normalizedAngle = angle - PI / 2;
-    return [
-      radius * cos(normalizedAngle), // x
-      radius * sin(normalizedAngle), // y
-    ];
   }
 }

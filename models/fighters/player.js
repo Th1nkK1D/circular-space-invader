@@ -70,11 +70,11 @@ class Player extends Fighter {
   // Update angle according to the pressed arrow jey
   updateAngle() {
     if (keyIsDown(KEY_LEFT_ARROW)) {
-      this.angle -= this.rotationSpeed * deltaTime;
+      this.coord.theta -= this.rotationSpeed * deltaTime;
     }
 
     if (keyIsDown(KEY_RIGHT_ARROW)) {
-      this.angle += this.rotationSpeed * deltaTime;
+      this.coord.theta += this.rotationSpeed * deltaTime;
     }
   }
 

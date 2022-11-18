@@ -47,7 +47,7 @@ class Alien extends Fighter {
 
   // Update angle by rotationSpeed
   updateAngle() {
-    this.angle += this.rotationSpeed * deltaTime;
+    this.coord.theta += this.rotationSpeed * deltaTime;
   }
 
   // Fire bullet when fireCooldown is 0

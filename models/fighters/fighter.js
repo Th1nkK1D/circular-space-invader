@@ -5,7 +5,7 @@
  */
 
 // Fighter class (will be inherit by Player and Alien)
-class Fighter {
+class Fighter extends PolarObject {
   constructor({
     radius,
     orbitalRadius,
@@ -19,10 +19,14 @@ class Fighter {
     bulletColors,
     isEnabled = false,
   }) {
+    super({
+      origin: [width / 2, height / 2],
+      r: orbitalRadius,
+      theta: angle,
+    });
+
     this.radius = radius;
-    this.orbitalRadius = orbitalRadius;
     this.rotationSpeed = rotationSpeed;
-    this.angle = angle;
     this.bulletSet = bulletSet;
     this.bulletClass = bulletClass;
     this.bulletSpeed = bulletSpeed;
@@ -39,10 +43,10 @@ class Fighter {
       this.updateAngle();
 
       // Loop angle in range 0 to 2*PI
-      if (this.angle > 2 * PI) {
-        this.angle = this.angle - 2 * PI;
-      } else if (this.angle < 0) {
-        this.angle = 2 * PI + this.angle;
+      if (this.coord.theta > 2 * PI) {
+        this.coord.theta = this.coord.theta - 2 * PI;
+      } else if (this.coord.theta < 0) {
+        this.coord.theta = 2 * PI + this.coord.theta;
       }
 
       // Deduct fireCooldown by delta time (min 0)
@@ -58,8 +62,8 @@ class Fighter {
         // Create new bullet instance and add to bulletSet
         this.bulletSet.add(
           new this.bulletClass({
-            distance: this.orbitalRadius,
-            angle: this.angle,
+            distance: this.coord.r,
+            angle: this.coord.theta,
             speed: this.bulletSpeed,
             radius: this.bulletRadius,
             color: this.color,
@@ -71,18 +75,8 @@ class Fighter {
       }
     }
 
-    // Transform body shape around canvas center
-    translate(width / 2, height / 2);
-    rotate(this.angle);
-    translate(0, -this.orbitalRadius);
-
-    this.drawBody();
-
-    resetMatrix(); // Reset transformation for other shape
+    this.drawBodyInPolarCoordSpace();
   }
-
-  // Draw body shape (to be implemented by subclass)
-  drawBody() {}
 
   // How to update angle in each frame (to be implemented by subclass)
   updateAngle() {}
