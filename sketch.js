@@ -109,7 +109,7 @@ function draw() {
           hitEnermySound.play();
 
           // Speedup bg music
-          bgMusicRate *= 1.005;
+          bgMusicRate *= 1.007;
           bgMusic.rate(bgMusicRate);
         }
       });
