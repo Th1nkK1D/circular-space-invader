@@ -27,12 +27,6 @@ class Player extends Fighter {
     this.bulletReloadDuration = bulletReloadDuration;
     this.maxRotationSpeed = maxRotationSpeed;
     this.rotationAcceleration = rotationAcceleration;
-
-    this.movementOscillator = new p5.Oscillator('sine');
-    this.movementOscillator.amp(0);
-    this.movementOscillator.start();
-
-    new p5.Reverb().process(this.movementOscillator, 2, 2);
   }
 
   // Override fighter draw() to add refill bullet logic
@@ -78,7 +72,7 @@ class Player extends Fighter {
     );
   }
 
-  // Update angle according to the pressed arrow key
+  // Update angle according to the pressed arrow jey
   updateAngle() {
     if (keyIsDown(KEY_LEFT_ARROW)) {
       this.rotationSpeed = max(
@@ -103,13 +97,6 @@ class Player extends Fighter {
     }
 
     this.angle += this.rotationSpeed * deltaTime;
-
-    // Map rotation speed to oscillator frequency and amplitude
-    const mapRotationSpeed = (min, max) =>
-      map(abs(this.rotationSpeed), 0, this.maxRotationSpeed, min, max);
-
-    this.movementOscillator.freq(mapRotationSpeed(50, 200));
-    this.movementOscillator.amp(mapRotationSpeed(0, 0.02));
   }
 
   // Will fire bullet if space is pressed, no fire cooldown and bullet is available
