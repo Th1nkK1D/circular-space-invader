@@ -142,7 +142,6 @@ function draw() {
             spawnDebris(collidePosition, bullet.color);
             gameState = STATE_GAMEOVER;
 
-            player.movementOscillator.stop();
             hitPlayerSound.play();
             bgMusic.stop();
           }
@@ -250,8 +249,7 @@ function spawnPlayer(isEnabled = true) {
     isEnabled,
     radius: 15,
     orbitalRadius: 150,
-    maxRotationSpeed: PI / 750,
-    rotationAcceleration: PI / 120000,
+    rotationSpeed: PI / 900,
     bulletSpeed: 0.3,
     bulletRadius: 5,
     fireCooldownDuration: 150,
