@@ -43,7 +43,7 @@ function preload() {
   // Sound from https://freesound.org/people/InspectorJ/sounds/411642/
   hitEnermySound = loadSound('sounds/411642__inspectorj__pop-high-a-h1.mp3');
   // Sound from https://freesound.org/people/mitchelk/sounds/136765/
-  hitPlayerSound = loadSound('sounds/136765__mitchelk__explode001.wav');
+  hitPlayerSound = loadSound('sounds/136765__mitchelk__explode001.mp3');
   // Sound from https://freesound.org/people/Tuudurt/sounds/275104/
   winSound = loadSound('sounds/275104__tuudurt__piglevelwin2.mp3');
   // Sound from https://freesound.org/people/eardeer/sounds/401613/
