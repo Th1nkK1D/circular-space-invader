@@ -15,7 +15,8 @@ let player,
   hitPlayerSound,
   winSound,
   bgMusic,
-  bgMusicRate;
+  bgMusicRate,
+  reverbEffect;
 
 // Define orbit layer of aliens
 const ALIEN_LAYERS = [
@@ -62,6 +63,9 @@ function setup() {
   hitEnermySound.setVolume(0.6);
   hitPlayerSound.setVolume(0.6);
   winSound.setVolume(0.2);
+
+  reverbEffect = new p5.Reverb();
+  reverbEffect.process(hitEnermySound, 4, 1);
 
   bgMusic.setVolume(0.1);
   bgMusic.playMode('restart');
