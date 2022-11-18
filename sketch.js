@@ -104,7 +104,8 @@ function draw() {
 
           spawnDebris(collidePosition, bullet.color);
 
-          // Play sound with random rate
+          // Pan hit enermy sound to the alien position, random rate and play
+          hitEnermySound.pan(alien.getAudioPanFromCoord(collidePosition));
           hitEnermySound.rate(random(0.6, 0.8));
           hitEnermySound.play();
 
@@ -146,6 +147,8 @@ function draw() {
             spawnDebris(collidePosition, bullet.color);
             gameState = STATE_GAMEOVER;
 
+            // Pan hit player sound to player position and play
+            hitPlayerSound.pan(player.getAudioPanFromCoord(collidePosition));
             hitPlayerSound.play();
             bgMusic.stop();
           }

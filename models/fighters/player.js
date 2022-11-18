@@ -86,7 +86,8 @@ class Player extends Fighter {
     if (isFire) {
       this.currentBullet--;
 
-      // Play sound with random rate
+      // Pan laser sound to player position, random rate and play
+      laserSound.pan(this.getAudioPanFromCoord());
       laserSound.rate(random(0.8, 1.2));
       laserSound.play();
     }

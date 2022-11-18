@@ -86,4 +86,9 @@ class Fighter extends PolarObject {
 
   // Logic to set fireCooldown (to be implemented by subclass)
   setFireCooldown() {}
+
+  // Calculate pan value from given/current coordinate x in range of screen width
+  getAudioPanFromCoord(coord) {
+    return (coord || this.getCartesianCoord())[0] / width / 2;
+  }
 }
