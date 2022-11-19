@@ -13,7 +13,7 @@ let player,
   laserSound,
   hitEnermySound,
   hitPlayerSound,
-  winSound,
+  winningSound,
   bgMusic,
   bgMusicRate,
   reverbEffect;
@@ -46,7 +46,7 @@ function preload() {
   // Sound from https://freesound.org/people/mitchelk/sounds/136765/
   hitPlayerSound = loadSound('sounds/136765__mitchelk__explode001.mp3');
   // Sound from https://freesound.org/people/Tuudurt/sounds/275104/
-  winSound = loadSound('sounds/275104__tuudurt__piglevelwin2.mp3');
+  winningSound = loadSound('sounds/275104__tuudurt__piglevelwin2.mp3');
   // Sound from https://freesound.org/people/eardeer/sounds/401613/
   bgMusic = loadSound(
     'sounds/401613__eardeer__cheeserider-loop-155bpm-8bars.mp3'
@@ -62,7 +62,7 @@ function setup() {
   laserSound.setVolume(0.4);
   hitEnermySound.setVolume(0.6);
   hitPlayerSound.setVolume(0.6);
-  winSound.setVolume(0.2);
+  winningSound.setVolume(0.2);
 
   reverbEffect = new p5.Reverb();
   reverbEffect.process(hitEnermySound, 4, 1);
@@ -127,7 +127,7 @@ function draw() {
       // No alien left = player win
       gameState = STATE_WIN;
       bgMusic.stop();
-      winSound.play();
+      winningSound.play();
     }
   }
 
