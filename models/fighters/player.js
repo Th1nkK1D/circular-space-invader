@@ -22,6 +22,7 @@ class Player extends Fighter {
     this.currentBullet = maxBullet;
     this.maxBullet = maxBullet;
     this.bulletReloadDuration = bulletReloadDuration;
+    this.isEmptyBulletSoundPlayed = false;
   }
 
   // Override fighter draw() to add refill bullet logic
@@ -29,6 +30,10 @@ class Player extends Fighter {
     // Refill bullet by deltaTime is currentBullet is not full
     if (this.currentBullet < this.maxBullet) {
       this.currentBullet += deltaTime / this.bulletReloadDuration;
+
+      if (this.currentBullet >= this.maxBullet) {
+        fullBulletSound.play();
+      }
     }
 
     super.draw(); // Call Fighter's draw()
@@ -83,16 +88,26 @@ class Player extends Fighter {
     const isFire =
       keyIsDown(KEY_SPACE) && this.fireCooldown === 0 && this.currentBullet > 0;
 
-    if (isFire) {
-      this.currentBullet--;
+    if (keyIsDown(KEY_SPACE) && this.fireCooldown === 0) {
+      if (this.currentBullet > 0) {
+        this.currentBullet--;
+        this.isEmptyBulletSoundPlayed = false;
 
-      // Pan laser sound to player position, random rate and play
-      laserSound.pan(this.getAudioPanFromCoord());
-      laserSound.rate(random(0.7, 1.3));
-      laserSound.play();
+        // Pan laser sound to player position, random rate and play
+        laserSound.pan(this.getAudioPanFromCoord());
+        laserSound.rate(random(0.7, 1.3));
+        laserSound.play();
+
+        return true;
+      }
+
+      if (!this.isEmptyBulletSoundPlayed) {
+        emptyBulletSound.play();
+        this.isEmptyBulletSoundPlayed = true;
+      }
     }
 
-    return isFire;
+    return false;
   }
 
   // Set fireCooldown to be initial fireCooldownDuration

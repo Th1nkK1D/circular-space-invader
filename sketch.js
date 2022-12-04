@@ -13,6 +13,8 @@ let player,
   laserSound,
   enermyExplosionSound,
   playerExplosionSound,
+  emptyBulletSound,
+  fullBulletSound,
   winningSound,
   bgMusic,
   bgMusicRate;
@@ -46,6 +48,10 @@ function preload() {
   );
   // Sound from https://freesound.org/people/mitchelk/sounds/136765/
   playerExplosionSound = loadSound('sounds/136765__mitchelk__explode001.mp3');
+  // Sound from https://freesound.org/people/rnina01/sounds/240717/
+  emptyBulletSound = loadSound('sounds/240717__rnina01__empty-bullet.mp3');
+  // Sound from https://freesound.org/people/bennychico11/sounds/29543/
+  fullBulletSound = loadSound('sounds/29543__bennychico11__wink.mp3');
   // Sound from https://freesound.org/people/Tuudurt/sounds/275104/
   winningSound = loadSound('sounds/275104__tuudurt__piglevelwin2.mp3');
   // Sound from https://freesound.org/people/eardeer/sounds/401613/
@@ -63,6 +69,8 @@ function setup() {
   laserSound.setVolume(0.4);
   enermyExplosionSound.setVolume(0.6);
   playerExplosionSound.setVolume(0.6);
+  emptyBulletSound.setVolume(0.15);
+  fullBulletSound.setVolume(0.6);
   winningSound.setVolume(0.2);
 
   const hitEnermyEffect = new p5.Delay();
