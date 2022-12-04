@@ -1,8 +1,8 @@
 # Circular Space Invader
 
-**WORK IN PROGRESS!**
-
 Space invader, but with circular orbit. Built with vanilla [p5.js](https://p5js.org) from scratch.
+
+![image](https://user-images.githubusercontent.com/8860448/205520082-48f2ff11-73d1-43ad-b0dd-b3decab6b92e.png)
 
 [Play now](https://th1nkk1d.github.io/circular-space-invader) or view in [p5.js Web Editor](https://editor.p5js.org/Th1nkK1D/sketches/Xv7vjo71c)
 
