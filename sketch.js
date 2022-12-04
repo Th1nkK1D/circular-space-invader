@@ -15,8 +15,7 @@ let player,
   hitPlayerSound,
   winningSound,
   bgMusic,
-  bgMusicRate,
-  reverbEffect;
+  bgMusicRate;
 
 // Define orbit layer of aliens
 const ALIEN_LAYERS = [
@@ -64,8 +63,8 @@ function setup() {
   hitPlayerSound.setVolume(0.6);
   winningSound.setVolume(0.2);
 
-  reverbEffect = new p5.Reverb();
-  reverbEffect.process(hitEnermySound, 4, 1);
+  const hitEnermyEffect = new p5.Delay();
+  hitEnermyEffect.process(hitEnermySound, 0.2, 0.5, 1500);
 
   bgMusic.setVolume(0.1);
   bgMusic.playMode('restart');
@@ -109,9 +108,12 @@ function draw() {
           hitEnermySound.rate(random(0.6, 0.8));
           hitEnermySound.play();
 
-          // Speedup bg music
-          bgMusicRate *= 1.007;
-          bgMusic.rate(bgMusicRate);
+          // Slowdown and Speedup bg music
+          bgMusicRate *= 1.02;
+          bgMusic.rate((bgMusicRate * 2) / 3);
+          setTimeout(() => {
+            bgMusic.rate(bgMusicRate);
+          }, 1500);
         }
       });
     });
