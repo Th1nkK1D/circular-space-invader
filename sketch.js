@@ -11,7 +11,7 @@ let player,
   scientificaFont,
   msElapsed,
   laserSound,
-  enermyExplosionSound,
+  enemyExplosionSound,
   playerExplosionSound,
   emptyBulletSound,
   fullBulletSound,
@@ -43,7 +43,7 @@ function preload() {
   // Sound from https://freesound.org/people/kafokafo/sounds/128349/
   laserSound = loadSound('sounds/128349__kafokafo__laser.mp3');
   // Sound from https://freesound.org/people/InspectorJ/sounds/411642/
-  enermyExplosionSound = loadSound(
+  enemyExplosionSound = loadSound(
     'sounds/411642__inspectorj__pop-high-a-h1.mp3'
   );
   // Sound from https://freesound.org/people/mitchelk/sounds/136765/
@@ -67,14 +67,14 @@ function setup() {
   debrisSet = new Set();
 
   laserSound.setVolume(0.4);
-  enermyExplosionSound.setVolume(0.6);
+  enemyExplosionSound.setVolume(0.6);
   playerExplosionSound.setVolume(0.6);
   emptyBulletSound.setVolume(0.15);
   fullBulletSound.setVolume(0.6);
   winningSound.setVolume(0.2);
 
-  const hitEnermyEffect = new p5.Delay();
-  hitEnermyEffect.process(enermyExplosionSound, 0.2, 0.5, 1500);
+  const hitenemyEffect = new p5.Delay();
+  hitenemyEffect.process(enemyExplosionSound, 0.2, 0.5, 1500);
 
   bgMusic.setVolume(0.1);
   bgMusic.playMode('restart');
@@ -113,10 +113,10 @@ function draw() {
 
           spawnDebris(collidePosition, bullet.color);
 
-          // Pan hit enermy sound to the alien position, random rate and play
-          enermyExplosionSound.pan(alien.getAudioPanFromCoord(collidePosition));
-          enermyExplosionSound.rate(random(0.5, 0.9));
-          enermyExplosionSound.play();
+          // Pan hit enemy sound to the alien position, random rate and play
+          enemyExplosionSound.pan(alien.getAudioPanFromCoord(collidePosition));
+          enemyExplosionSound.rate(random(0.5, 0.9));
+          enemyExplosionSound.play();
 
           // Slowdown and Speedup bg music
           bgMusicRate *= 1.02;
