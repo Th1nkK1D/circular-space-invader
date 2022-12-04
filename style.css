@@ -22,3 +22,15 @@ canvas {
   width: min(100vw, 100vh) !important;
   height: min(100vw, 100vh) !important;
 }
+
+a {
+  position: absolute;
+  bottom: 2px;
+  right: 4px;
+  padding: 0;
+}
+
+a svg {
+  width: 24px;
+  height: 24px;
+}
