@@ -11,8 +11,8 @@ let player,
   scientificaFont,
   msElapsed,
   laserSound,
-  hitEnermySound,
-  hitPlayerSound,
+  enermyExplosionSound,
+  playerExplosionSound,
   winningSound,
   bgMusic,
   bgMusicRate;
@@ -41,9 +41,11 @@ function preload() {
   // Sound from https://freesound.org/people/kafokafo/sounds/128349/
   laserSound = loadSound('sounds/128349__kafokafo__laser.mp3');
   // Sound from https://freesound.org/people/InspectorJ/sounds/411642/
-  hitEnermySound = loadSound('sounds/411642__inspectorj__pop-high-a-h1.mp3');
+  enermyExplosionSound = loadSound(
+    'sounds/411642__inspectorj__pop-high-a-h1.mp3'
+  );
   // Sound from https://freesound.org/people/mitchelk/sounds/136765/
-  hitPlayerSound = loadSound('sounds/136765__mitchelk__explode001.mp3');
+  playerExplosionSound = loadSound('sounds/136765__mitchelk__explode001.mp3');
   // Sound from https://freesound.org/people/Tuudurt/sounds/275104/
   winningSound = loadSound('sounds/275104__tuudurt__piglevelwin2.mp3');
   // Sound from https://freesound.org/people/eardeer/sounds/401613/
@@ -59,12 +61,12 @@ function setup() {
   debrisSet = new Set();
 
   laserSound.setVolume(0.4);
-  hitEnermySound.setVolume(0.6);
-  hitPlayerSound.setVolume(0.6);
+  enermyExplosionSound.setVolume(0.6);
+  playerExplosionSound.setVolume(0.6);
   winningSound.setVolume(0.2);
 
   const hitEnermyEffect = new p5.Delay();
-  hitEnermyEffect.process(hitEnermySound, 0.2, 0.5, 1500);
+  hitEnermyEffect.process(enermyExplosionSound, 0.2, 0.5, 1500);
 
   bgMusic.setVolume(0.1);
   bgMusic.playMode('restart');
@@ -104,9 +106,9 @@ function draw() {
           spawnDebris(collidePosition, bullet.color);
 
           // Pan hit enermy sound to the alien position, random rate and play
-          hitEnermySound.pan(alien.getAudioPanFromCoord(collidePosition));
-          hitEnermySound.rate(random(0.5, 0.9));
-          hitEnermySound.play();
+          enermyExplosionSound.pan(alien.getAudioPanFromCoord(collidePosition));
+          enermyExplosionSound.rate(random(0.5, 0.9));
+          enermyExplosionSound.play();
 
           // Slowdown and Speedup bg music
           bgMusicRate *= 1.02;
@@ -150,8 +152,10 @@ function draw() {
             gameState = STATE_GAMEOVER;
 
             // Pan hit player sound to player position and play
-            hitPlayerSound.pan(player.getAudioPanFromCoord(collidePosition));
-            hitPlayerSound.play();
+            playerExplosionSound.pan(
+              player.getAudioPanFromCoord(collidePosition)
+            );
+            playerExplosionSound.play();
             bgMusic.stop();
           }
         }
