@@ -45,11 +45,15 @@ All shape are drawn in p5.js without loading any picture. [Scientifica font](htt
 There are sound effects in the foreground and music in a background. All sound are taken from [freesound.org](https://freesound.org)
 
 - **Foreground audio**
-  - `laserSound` ([source](https://freesound.org/people/kafokafo/sounds/128349/)) with frequency randomization
-  - `hitEnermySound` ([source](https://freesound.org/people/InspectorJ/sounds/411642/)) with frequency randomization and p5's `reverb` effect to improve space aesthetic
-  - `hitPlayerSound` ([source](https://freesound.org/people/mitchelk/sounds/136765/))
+  - `laserSound` ([source](https://freesound.org/people/kafokafo/sounds/128349/)) use frequency randomization to create more variation, making laser sound more dynamic.
+  - **Explosion sounds** are played when bullet hit fighters
+    - `enemyExplosionSound` ([source](https://freesound.org/people/InspectorJ/sounds/411642/)) use frequency randomization to create more variation, making the explosion more dynamic. Also added p5's `echo` effect to ephasize the sound and improve space aesthetic.
+    - `playerExplosionSound` ([source](https://freesound.org/people/mitchelk/sounds/136765/)) to be played when player got hit and the game is over. Since it will be played once per game, it's reasonable to have only one variation.
+  - **Bullet status sound** assist player by giving feedback about bullet status, so player doesn't need to look at the available bullet on the top right.
+    - `emptyBulletSound` ([source](https://freesound.org/people/rnina01/sounds/240717/) play when bullet run out.
+    - `fullBulletSound` ([source](https://freesound.org/people/bennychico11/sounds/29543/) play when bullet are fully refilled.
 - **Background audio**
-  - `winningSound` ([source](https://freesound.org/people/Tuudurt/sounds/275104/)) short soundtrack when player win the game
-  - `bgMusic` ([source](https://freesound.org/people/eardeer/sounds/401613/)) loop music when game is playing
+  - `winningSound` ([source](https://freesound.org/people/Tuudurt/sounds/275104/)) short soundtrack when player win the game.
+  - `bgMusic` ([source](https://freesound.org/people/eardeer/sounds/401613/)) loop music when game is playing. When enemy is hit, the rate will be decresed dramatically for 1.5 second to emphasize that bullet is hit. Then the sound rate will be permanently slighly increased, to make game more exciting together with difficulty from increased enemy speed.
 
-I added `pan` effect on foreground sound, relative to position of that sound origin on the screen, to make the game sound more dynamic.
+I added `pan` effect on laser and explosion sounds, relative to position of that sound origin on the screen, to make the game sound more dynamic.
