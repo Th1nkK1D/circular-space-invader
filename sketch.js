@@ -105,7 +105,7 @@ function draw() {
 
           // Pan hit enermy sound to the alien position, random rate and play
           hitEnermySound.pan(alien.getAudioPanFromCoord(collidePosition));
-          hitEnermySound.rate(random(0.6, 0.8));
+          hitEnermySound.rate(random(0.5, 0.9));
           hitEnermySound.play();
 
           // Slowdown and Speedup bg music
